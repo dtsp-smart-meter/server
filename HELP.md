@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.ddes.smart-meter.smart-meter' is invalid and this project uses 'com.ddes.smart_meter.smart_meter' instead.
+* The original package name 'com.ddes.smart-meter.smart-meter' is invalid and this project uses 'com.ddes.smartMeter.smart_meter' instead.
 
 # Getting Started
 

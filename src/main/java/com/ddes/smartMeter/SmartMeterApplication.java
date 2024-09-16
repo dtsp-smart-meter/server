@@ -1,4 +1,4 @@
-package com.ddes.smart_meter;
+package com.ddes.smartMeter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
