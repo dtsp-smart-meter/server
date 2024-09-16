@@ -1,4 +1,4 @@
-package com.ddes.smartMeter;
+package com.ddes.smartmeter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
