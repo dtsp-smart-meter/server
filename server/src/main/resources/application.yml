@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: smart-meter
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      data-source-properties:
+        oracle:
+          net:
+            CONNECT_TIMEOUT: 10000
+            READ_TIMEOUT: 10000
+          jdbc:
+            ReadTimeout: 10000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: myuser
+    password: secret
+  datasource:
+    url: jdbc:sqlserver://smartmeter.database.windows.net:1433;database=smartmeter;user=smart-meter-admin@smartmeter;password=XXXX;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  rabbitmq:
+    host: 165.227.225.78
+    port: 5672
+    username: XXXX
+    password: XXXX
+  datasource:
+    url: jdbc:sqlserver://smartmeter.database.windows.net:1433;database=smartmeter;user=smart-meter-admin@smartmeter;password=XXXX;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
