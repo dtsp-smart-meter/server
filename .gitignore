@@ -1,3 +1,10 @@
-.idea/
+# Generic
 .DS_Store
+
+# Server
+.idea/
 target/
+
+# Client
+__pycache__/
+venv/
