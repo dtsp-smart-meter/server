@@ -39,6 +39,8 @@ public class WebSocketController {
                 .setSessionId(stompHeaderAccessor.getSessionId())
                 .build();
 
+        System.out.println("Adding listener: " + listenerDetails.getClientId());
+
         notificationDispatcher.add(listenerDetails);
 
         rabbitTemplate.convertAndSend("meterReadings", meterReading.toJSON());

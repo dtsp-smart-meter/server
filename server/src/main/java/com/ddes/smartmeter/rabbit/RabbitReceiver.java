@@ -1,5 +1,6 @@
 package com.ddes.smartmeter.rabbit;
 
+import com.ddes.smartmeter.entities.ListenerDetails;
 import com.ddes.smartmeter.services.NotificationDispatcherService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,9 +24,12 @@ public class RabbitReceiver {
             JsonNode rootNode = mapper.readTree(message);
             String clientId = rootNode.get("clientId").asText();
 
-            notificationDispatcher.getListeners().stream()
-                    .filter(listener -> listener.getClientId().equals(clientId))
-                    .forEach(listener -> notificationDispatcher.dispatchMeterReading(listener.getSessionId(), message));
+            ListenerDetails listener = notificationDispatcher.getListeners().stream()
+                    .filter(l -> l.getClientId().equals(clientId))
+                    .findFirst()
+                    .orElse(null);
+
+            System.out.print("ClientID held in rabbit Listener:" + listener.getClientId());
 
         } catch (Exception e) {
             e.printStackTrace();
