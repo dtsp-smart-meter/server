@@ -47,12 +47,13 @@ public class NotificationDispatcherService {
 
     }
 
-    public void dispatchMeterReading(String sessionId, String message) {
+    public void dispatchMeterReading(ListenerDetails listener, String message) {
 
-        LOGGER.info("Sending notification to clientId: ", sessionId);
+        LOGGER.info("Sending notification to clientId: ", listener.getClientId());
+        LOGGER.info("SessionId for above clientId: ", listener.getSessionId());
 
         template.convertAndSendToUser(
-                sessionId,
+                listener.getSessionId(),
                 "/notification/readingResult",
                 new WebSocketResponse(message));
 

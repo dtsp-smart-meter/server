@@ -31,6 +31,8 @@ public class RabbitReceiver {
 
             System.out.print("ClientID held in rabbit Listener:" + listener.getClientId());
 
+            notificationDispatcher.dispatchMeterReading(listener, message);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
