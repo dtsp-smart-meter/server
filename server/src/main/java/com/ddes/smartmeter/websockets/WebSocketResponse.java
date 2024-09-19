@@ -1,12 +1,12 @@
 package com.ddes.smartmeter.websockets;
 
-public class MeterReadingResponse {
+public class WebSocketResponse {
 
     private String message;
 
-    public MeterReadingResponse() {}
+    public WebSocketResponse() {}
 
-    public MeterReadingResponse(String message) {
+    public WebSocketResponse(String message) {
         this.message = message;
     }
 
