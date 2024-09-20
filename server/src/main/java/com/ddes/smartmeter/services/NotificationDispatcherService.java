@@ -5,6 +5,8 @@ import com.ddes.smartmeter.websockets.WebSocketResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -52,10 +54,15 @@ public class NotificationDispatcherService {
         LOGGER.info("Sending notification to clientId: ", listener.getClientId());
         LOGGER.info("SessionId for above clientId: ", listener.getSessionId());
 
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+        headerAccessor.setSessionId(listener.getSessionId());
+        headerAccessor.setLeaveMutable(true);
+
         template.convertAndSendToUser(
                 listener.getSessionId(),
                 "/notification/readingResult",
-                new WebSocketResponse(message));
+                new WebSocketResponse(message),
+                headerAccessor.getMessageHeaders());
 
     }
 
