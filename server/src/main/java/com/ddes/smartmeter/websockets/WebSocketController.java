@@ -7,6 +7,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
@@ -27,7 +28,7 @@ public class WebSocketController {
     @MessageMapping("/meterReading")
     @SendTo("/topic/smartMeter")
     public WebSocketResponse meterReadingResponse(MeterReading meterReading,
-                                                  StompHeaderAccessor stompHeaderAccessor) throws Exception {
+                                                  SimpMessageHeaderAccessor simpMessageHeaderAccessor) throws Exception {
         System.out.println("Client ID: " + meterReading.getClientId());
         System.out.println("Current Usage: " + meterReading.getCurrentUsage());
         System.out.println("Timestamp: " + meterReading.getTimestamp());
@@ -36,7 +37,7 @@ public class WebSocketController {
 
         ListenerDetails listenerDetails = listenerDetailsBuilder
                 .setClientId(meterReading.getClientId().toString())
-                .setSessionId(stompHeaderAccessor.getSessionId())
+                .setSessionId(simpMessageHeaderAccessor.getSessionId())
                 .build();
 
         System.out.println("Adding listener: " + listenerDetails.getClientId());
