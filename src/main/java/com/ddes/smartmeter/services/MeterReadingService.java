@@ -1,14 +1,10 @@
 package com.ddes.smartmeter.services;
 
-import com.ddes.smartmeter.entities.ListenerDetails;
 import com.ddes.smartmeter.entities.MeterReading;
-import com.ddes.smartmeter.websockets.WebSocketResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -34,7 +30,7 @@ public class MeterReadingService {
         return calcutatedPrice;
     }
 
-    public String processedMeterReading(ListenerDetails listener, MeterReading reading) {
+    public String processedMeterReading(MeterReading reading) {
         double calculatedCost = calculateCost(reading);
 
         ObjectMapper mapper = new ObjectMapper();
