@@ -1,12 +1,6 @@
-server:
-  ssl:
-    key-store: 'xxx'
-    key-store-password: xxx
-    key-alias: smartmeter
-
 spring:
   profiles:
-    active: prod
+    active: local
   application:
     name: smart-meter
   jpa:
@@ -42,9 +36,6 @@ spring:
     port: 5672
     username: myuser
     password: secret
-  datasource:
-    url: jdbc:sqlserver://smartmeter.database.windows.net:1433;database=smartmeter;user=smart-meter-admin@smartmeter;password=XXXX;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-
 ---
 spring:
   config:
@@ -55,5 +46,3 @@ spring:
     port: 5672
     username: xxx
     password: xxx
-  datasource:
-    url: jdbc:sqlserver://smartmeter.database.windows.net:1433;database=smartmeter;user=smart-meter-admin@smartmeter;password=xxx;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
