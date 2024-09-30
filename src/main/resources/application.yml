@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: local
+  application:
+    name: smart-meter
+  amqp:
+    deserialization:
+      trust:
+        all: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: myuser
+    password: secret
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  rabbitmq:
+    host: 165.227.225.78
+    port: 5672
+    username: xxx
+    password: xxx
