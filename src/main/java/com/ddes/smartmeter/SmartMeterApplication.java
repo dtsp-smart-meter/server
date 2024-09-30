@@ -9,5 +9,4 @@ public class SmartMeterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmartMeterApplication.class, args);
 	}
-
 }

@@ -4,8 +4,6 @@ public class WebSocketResponse {
 
     private String message;
 
-    public WebSocketResponse() {}
-
     public WebSocketResponse(String message) {
         this.message = message;
     }
