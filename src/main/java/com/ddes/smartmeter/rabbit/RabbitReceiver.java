@@ -2,7 +2,6 @@ package com.ddes.smartmeter.rabbit;
 
 import com.ddes.smartmeter.entities.ListenerDetails;
 import com.ddes.smartmeter.entities.MeterReading;
-import com.ddes.smartmeter.services.ElectricityCost;
 import com.ddes.smartmeter.services.MeterReadingService;
 import com.ddes.smartmeter.services.NotificationDispatcherService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,6 +39,7 @@ public class RabbitReceiver {
 
             System.out.print("ClientID held in rabbit Listener:" + listener.getClientId());
 
+            notificationDispatcher.dispatchMeterReading(listener, message);
 
             meterReadingService.processedMeterReading(listener, reading);
 
