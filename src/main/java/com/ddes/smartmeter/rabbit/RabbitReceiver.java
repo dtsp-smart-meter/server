@@ -1,5 +1,7 @@
 package com.ddes.smartmeter.rabbit;
 
+import com.ddes.smartmeter.entities.MeterReading;
+import com.ddes.smartmeter.services.MeterReadingService;
 import com.ddes.smartmeter.services.NotificationDispatcherService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +18,8 @@ public class RabbitReceiver {
 
     @Autowired
     private NotificationDispatcherService notificationDispatcher;
+    @Autowired
+    private MeterReadingService meterReadingService;
 
     @RabbitListener(queues = "meterReadings")
     public void receiveMessage(String message) {
@@ -26,10 +30,15 @@ public class RabbitReceiver {
             JsonNode rootNode = mapper.readTree(message);
 
             String clientId = rootNode.get("clientId").asText();
+            double currentUsage = rootNode.get("currentUsage").asDouble();
+            long timestamp = rootNode.get("timestamp").asLong();
 
-            // Write logic code here...
+            MeterReading reading = new MeterReading(clientId, currentUsage, timestamp);
 
-            notificationDispatcher.dispatchMeterReading(clientId, message);
+            String processedMessage= meterReadingService.processedMeterReading(reading);
+
+            notificationDispatcher.dispatchMeterReading(clientId, processedMessage);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
