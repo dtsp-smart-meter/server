@@ -24,5 +24,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests --file pom.xml
 
+      - name: Verify JAR file exists
+        run: |
+          if [ ! -f target/smart-meter-server.jar ]; then
+            echo "JAR file not found!"
+            exit 1
+          fi
+
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
