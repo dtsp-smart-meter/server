@@ -35,4 +35,13 @@ jobs:
           fi
 
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file Dockerfile --tag smart-meter-server:$(date +%s)
+
+      - name: Save Docker image to tar file
+        run: docker save smart-meter-server:latest -o smart-meter-server.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: smart-meter-server.tar
