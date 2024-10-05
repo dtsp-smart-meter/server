@@ -31,6 +31,17 @@ public class MeterReadingService {
     }
 
     public String processedMeterReading(MeterReading reading) {
+
+        // Check for null reading
+        if (reading == null) {
+            throw new NullPointerException("MeterReading cannot be null.");
+        }
+
+        // Check for negative usage
+        if (reading.getCurrentUsage() < 0) {
+            throw new IllegalArgumentException("Current usage cannot be negative.");
+        }
+
         double calculatedCost = calculateCost(reading);
 
         ObjectMapper mapper = new ObjectMapper();
