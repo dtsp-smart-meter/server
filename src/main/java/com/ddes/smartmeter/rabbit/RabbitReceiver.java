@@ -38,7 +38,6 @@ public class RabbitReceiver {
             String processedMessage= meterReadingService.processedMeterReading(reading);
 
             notificationDispatcher.dispatchMeterReading(clientId, processedMessage);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
