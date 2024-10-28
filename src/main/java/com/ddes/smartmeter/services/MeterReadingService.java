@@ -32,13 +32,13 @@ public class MeterReadingService {
 
     public String processedMeterReading(MeterReading reading) {
 
-        // Check for null reading
         if (reading == null) {
+            LOGGER.error("Meter reading cannot be null.");
             throw new NullPointerException("MeterReading cannot be null.");
         }
 
-        // Check for negative usage
         if (reading.getCurrentUsage() < 0) {
+            LOGGER.error("Current usage cannot be negative for reading: " + reading);
             throw new IllegalArgumentException("Current usage cannot be negative.");
         }
 
