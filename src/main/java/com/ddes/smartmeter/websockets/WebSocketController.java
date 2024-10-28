@@ -17,6 +17,7 @@ public class WebSocketController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    // webSocket endpoint for meter reading messages
     @MessageMapping("/meterReading")
     @SendTo("/topic/smartMeter")
     public WebSocketResponse meterReadingResponse(MeterReading meterReading) throws Exception {
