@@ -30,7 +30,7 @@ public class OutageMethodCallerService {
             Thread.currentThread().interrupt();
             LOGGER.error("Task interrupted", e);
         }
-        dispatchOutageAlert(message);
+        dispatchOutageAlert("Electricity grid down.");
     }
 
     public void dispatchOutageAlert(String message) {
