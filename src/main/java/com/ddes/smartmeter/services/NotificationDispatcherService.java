@@ -24,6 +24,6 @@ public class NotificationDispatcherService {
 
         LOGGER.info("Sending message to client: " + clientId + " on channel: " + destination);
 
-        template.convertAndSend(destination, new WebSocketResponse("Message from RabbitMQ: " + message));
+        template.convertAndSend(destination, new WebSocketResponse(message));
     }
 }
