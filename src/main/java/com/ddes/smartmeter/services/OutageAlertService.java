@@ -8,15 +8,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OutageMethodCallerService {
+public class OutageAlertService {
 
     @Autowired
     private NotificationDispatcherService notificationDispatcher;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 20000)
     public void scheduleTask() throws JsonProcessingException {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(20000);
         } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
             exception.printStackTrace();

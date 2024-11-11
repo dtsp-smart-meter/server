@@ -1,5 +1,4 @@
 package com.ddes.smartmeter;
-import com.ddes.smartmeter.services.MeterReadingService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
