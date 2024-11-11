@@ -1,13 +1,10 @@
 package com.ddes.smartmeter.services;
 
-import com.ddes.smartmeter.websockets.WebSocketResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Service
 public class NotificationDispatcherService {
@@ -21,19 +18,11 @@ public class NotificationDispatcherService {
         this.template = template;
     }
 
-    public void dispatchMeterReading(String clientId, String message) {
-        String destination = "/readingResult/" + clientId;
+    public void dispatchNotification(String destination, String message) {
+        destination = "/notification/" + destination;
 
-        LOGGER.info("Sending message to client: " + clientId + " on channel: " + destination);
+        LOGGER.info("Sending message on channel: " + destination);
 
-        template.convertAndSend(destination, new WebSocketResponse(message));
-    }
-
-    public void dispatchOutageAlert(String message) {
-        String destination = "/outageAlert";
-
-        LOGGER.info("Sending message to all clients on channel: " + destination);
-
-        template.convertAndSend(destination, new WebSocketResponse(message));
+        template.convertAndSend(destination, message);
     }
 }

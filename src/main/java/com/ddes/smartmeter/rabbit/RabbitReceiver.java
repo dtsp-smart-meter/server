@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationDispatcherService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitReceiver.class);
 
     @Autowired
     private NotificationDispatcherService notificationDispatcher;
@@ -23,7 +23,7 @@ public class RabbitReceiver {
 
     @RabbitListener(queues = "meterReadings")
     public void receiveMessage(String message) {
-        LOGGER.info("Recieved message: " + message);
+        LOGGER.info("Received message: " + message);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -33,13 +33,13 @@ public class RabbitReceiver {
             double currentUsage = rootNode.get("currentUsage").asDouble();
             long timestamp = rootNode.get("timestamp").asLong();
 
-            MeterReading reading = new MeterReading(clientId, currentUsage, timestamp);
+            MeterReading meterReading = new MeterReading(clientId, currentUsage, timestamp);
 
-            String processedMessage= meterReadingService.processedMeterReading(reading);
+            String processedMessage= meterReadingService.processedMeterReading(meterReading);
 
-            notificationDispatcher.dispatchMeterReading(clientId, processedMessage);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notificationDispatcher.dispatchNotification("readingResult/" + clientId, processedMessage);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 }

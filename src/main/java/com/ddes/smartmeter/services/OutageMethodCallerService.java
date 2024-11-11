@@ -1,43 +1,31 @@
 package com.ddes.smartmeter.services;
 
-import com.ddes.smartmeter.websockets.WebSocketResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import java.util.Random;
 
 @Service
 public class OutageMethodCallerService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OutageMethodCallerService.class);
-    private final Random random = new Random();
+    @Autowired
+    private NotificationDispatcherService notificationDispatcher;
 
-    private final SimpMessagingTemplate template;
-
-    public OutageMethodCallerService(SimpMessagingTemplate template) {
-        this.template = template;
-    }
-
-    @Scheduled(fixedRate = 10000) // Runs every 10 seconds
-    public void scheduleTaskWithRandomDelay() {
-        int delay = random.nextInt(10000); // Random delay up to 10 seconds
+    @Scheduled(fixedRate = 10000)
+    public void scheduleTask() throws JsonProcessingException {
         try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
+            Thread.sleep(10000);
+        } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
-            LOGGER.error("Task interrupted", e);
+            exception.printStackTrace();
         }
-        dispatchOutageAlert("Electricity grid down.");
-    }
 
-    public void dispatchOutageAlert(String message) {
-        String destination = "/outageAlert";
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode jsonObject = mapper.createObjectNode();
+        jsonObject.put("message", "Electricity grid is down.");
 
-        LOGGER.info("Sending message to all clients on channel: " + destination);
-
-        template.convertAndSend(destination, new WebSocketResponse(message));
+        notificationDispatcher.dispatchNotification("alert", mapper.writeValueAsString(jsonObject));
     }
 }

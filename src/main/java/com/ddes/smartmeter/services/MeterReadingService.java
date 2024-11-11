@@ -13,12 +13,9 @@ import java.util.UUID;
 public class MeterReadingService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MeterReadingService.class);
-
     private static final double COST_PER_KWH = 0.12;
-    // will need to be updated to use external API
 
     private double calculateCost(MeterReading reading) {
-
         double currentUsage = reading.getCurrentUsage();
         UUID clientID = reading.getClientId();
         long timestamp = reading.getTimestamp();
@@ -30,37 +27,35 @@ public class MeterReadingService {
         return calcutatedPrice;
     }
 
-    public String processedMeterReading(MeterReading reading) {
-
-        if (reading == null) {
+    public String processedMeterReading(MeterReading meterReading) {
+        if (meterReading == null) {
             LOGGER.error("Meter reading cannot be null.");
             throw new NullPointerException("MeterReading cannot be null.");
         }
 
-        if (reading.getCurrentUsage() < 0) {
-            LOGGER.error("Current usage cannot be negative for reading: " + reading);
+        if (meterReading.getCurrentUsage() < 0) {
+            LOGGER.error("Current usage cannot be negative for reading: " + meterReading);
             throw new IllegalArgumentException("Current usage cannot be negative.");
         }
 
-        double calculatedCost = calculateCost(reading);
+        double calculatedCost = calculateCost(meterReading);
 
         ObjectMapper mapper = new ObjectMapper();
-
         ObjectNode jsonObject = mapper.createObjectNode();
-
-        jsonObject.put("clientId", reading.getClientId().toString());
-        jsonObject.put("timestamp", reading.getTimestamp());
-        jsonObject.put("currentUsage", reading.getCurrentUsage());
+        jsonObject.put("clientId", meterReading.getClientId().toString());
+        jsonObject.put("timestamp", meterReading.getTimestamp());
+        jsonObject.put("currentUsage", meterReading.getCurrentUsage());
         jsonObject.put("cost", calculatedCost);
 
         try {
             String jsonString = mapper.writeValueAsString(jsonObject);
+
             LOGGER.info("JSON created for reading: " + jsonString);
+
             return jsonString;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
             return null;
         }
-
     }
  }
