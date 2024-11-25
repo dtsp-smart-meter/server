@@ -1,7 +1,7 @@
 package com.ddes.smartmeter.interceptors;
 
+import com.ddes.smartmeter.config.AuthTokenConfig;
 import com.ddes.smartmeter.events.InvalidAuthTokenEvent;
-import com.ddes.smartmeter.services.NotificationDispatcherService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -23,11 +23,14 @@ public class AuthTokenInterceptor implements ChannelInterceptor {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private AuthTokenConfig authTokenConfig;
+
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
 
-        // Check if the command is SEND
+        // Check if the Stomp command is SEND
         if (StompCommand.SEND.equals(headerAccessor.getCommand())) {
             String clientId = headerAccessor.getFirstNativeHeader("clientId");
             String authToken = headerAccessor.getFirstNativeHeader("authToken");
@@ -49,7 +52,6 @@ public class AuthTokenInterceptor implements ChannelInterceptor {
     }
 
     private boolean isValidToken(String authToken) {
-        // TODO
-        return "test".equals(authToken);
+        return authTokenConfig.getAuthTokens().contains(authToken);
     }
 }
