@@ -15,10 +15,15 @@ public class OutageAlertService {
 
     public void dispatchAlert() throws JsonProcessingException {
 
+        ObjectNode jsonObject = createAlert();
+
+        notificationDispatcher.dispatchNotification("alert", jsonObject.toString());
+    }
+
+    public ObjectNode createAlert() {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonObject = mapper.createObjectNode();
         jsonObject.put("message", "Electricity grid is down.");
-
-        notificationDispatcher.dispatchNotification("alert", mapper.writeValueAsString(jsonObject));
+        return jsonObject;
     }
 }
