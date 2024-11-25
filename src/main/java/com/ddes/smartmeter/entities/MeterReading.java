@@ -1,5 +1,7 @@
 package com.ddes.smartmeter.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
@@ -13,8 +15,11 @@ public class MeterReading {
     private double currentCost;
     private long timestamp;
 
-    public MeterReading(String clientId, double currentUsage, long timestamp) {
-        this.clientId = UUID.fromString(clientId);
+    public MeterReading() {}
+
+    @JsonCreator // Allows Jackson to use this constructor for deserialization
+    public MeterReading(@JsonProperty("clientId") String clientId, @JsonProperty("currentUsage") double currentUsage, @JsonProperty("timestamp") long timestamp) {
+        this.clientId = clientId != null ? UUID.fromString(clientId) : null;
         this.currentUsage = currentUsage;
         this.currentCost = currentUsage * COST_PER_KWH;
         this.timestamp = timestamp;
@@ -22,6 +27,10 @@ public class MeterReading {
 
     public UUID getClientId() {
         return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = UUID.fromString(clientId);
     }
 
     public double getCurrentUsage() {
@@ -38,7 +47,6 @@ public class MeterReading {
 
     public String toJSON() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-
         return objectMapper.writeValueAsString(this);
     }
 }
