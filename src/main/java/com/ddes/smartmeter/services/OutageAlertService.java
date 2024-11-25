@@ -13,14 +13,7 @@ public class OutageAlertService {
     @Autowired
     private NotificationDispatcherService notificationDispatcher;
 
-    @Scheduled(fixedRate = 20000)
-    public void scheduleTask() throws JsonProcessingException {
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException exception) {
-            Thread.currentThread().interrupt();
-            exception.printStackTrace();
-        }
+    public void dispatchAlert() throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonObject = mapper.createObjectNode();
