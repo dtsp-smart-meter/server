@@ -2,6 +2,7 @@ package com.ddes.smartmeter.rabbit;
 
 import com.ddes.smartmeter.entities.MeterReading;
 import com.ddes.smartmeter.services.NotificationDispatcherService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -44,16 +45,23 @@ public class RabbitReceiver {
 
             double totalBill = clientTotalBills.get(meterReading.getClientId());
 
-            ObjectNode jsonObject = mapper.createObjectNode();
-            jsonObject.put("clientId", meterReading.getClientId().toString());
-            jsonObject.put("currentUsage", meterReading.getCurrentUsage());
-            jsonObject.put("currentCost", meterReading.getCurrentCost());
-            jsonObject.put("totalBill", totalBill);
-            jsonObject.put("timestamp", meterReading.getTimestamp());
+            String jsonString = createJsonString(meterReading, totalBill);
 
-            notificationDispatcher.dispatchNotification("readingResult/" + meterReading.getClientId().toString(), mapper.writeValueAsString(jsonObject));
+            notificationDispatcher.dispatchNotification("readingResult/" + meterReading.getClientId().toString(), jsonString);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    public String createJsonString(MeterReading meterReading, double totalBill) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode jsonObject = mapper.createObjectNode();
+        jsonObject.put("clientId", meterReading.getClientId().toString());
+        jsonObject.put("currentUsage", meterReading.getCurrentUsage());
+        jsonObject.put("currentCost", meterReading.getCurrentCost());
+        jsonObject.put("totalBill", totalBill);
+        jsonObject.put("timestamp", meterReading.getTimestamp());
+
+        return mapper.writeValueAsString(jsonObject);
     }
 }
