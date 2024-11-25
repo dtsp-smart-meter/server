@@ -26,6 +26,7 @@ public class RabbitReceiver {
 
     private final Map<UUID, Double> clientTotalBills = new HashMap<>();
 
+    @RabbitListener(queues = "meterReadings")
     public void receiveMessage(String message) {
         LOGGER.info("Received message: " + message);
 
