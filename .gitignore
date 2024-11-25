@@ -1,12 +1,5 @@
-# Generic
 .DS_Store
-
-# Server
 .idea/
 target/
 *.jks
 *.pem
-
-# Client
-__pycache__/
-venv/

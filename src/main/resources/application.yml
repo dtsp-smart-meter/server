@@ -1,12 +1,15 @@
 server:
   ssl:
-    key-store: ${SMARTMETER_KEY_STORE_LOCATION}
-    key-store-password: ${SMARTMETER_KEY_STORE_PASSWORD}
-    key-alias: ${SMARTMETER_KEY_STORE_ALIAS}
+    key-store: ${SMARTMETER_KEYSTORE_LOCATION}
+    key-store-password: ${SMARTMETER_KEYSTORE_PASSWORD}
+    key-store-type: JKS
+    trust-store: ${SMARTMETER_TRUSTSTORE_LOCATION}
+    trust-store-password: ${SMARTMETER_TRUSTSTORE_PASSWORD}
+    trust-store-type: JKS
 
 spring:
   application:
-    name: smart-meter
+    name: smartmeter
   rabbitmq:
     host: ${SMARTMETER_RABBITMQ_HOST}
     port: 5672
