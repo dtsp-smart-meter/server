@@ -15,5 +15,4 @@ public class OutageAlertServiceTests {
         ObjectNode jsonObject = outageAlertService.createAlert();
         assertEquals("Electricity grid is down.", jsonObject.get("message").asText());
     }
-
 }
