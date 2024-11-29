@@ -2,9 +2,9 @@ server:
   port: 8443 # The port the application will run on. Default HTTPS port is 8443.
   ssl:
     key-store: ${SMARTMETER_KEYSTORE_LOCATION} # The path to the keystore file, see README for details.
-    key-store-password: ${SMARTMETER_KEYSTORE_PASSWORD} # THe password to access the keystore file, see README for details.
+    key-store-password: ${SMARTMETER_KEYSTORE_PASSWORD} # The password to access the keystore file, see README for details.
     key-store-type: JKS # The type of keystore, set to Java KeyStore (JKS).
-    trust-store: ${SMARTMETER_TRUSTSTORE_LOCATION} # THe path to the truststore file, see README for details.
+    trust-store: ${SMARTMETER_TRUSTSTORE_LOCATION} # The path to the truststore file, see README for details.
     trust-store-password: ${SMARTMETER_TRUSTSTORE_PASSWORD} # THe password to access the truststore file, see README for details.
     trust-store-type: JKS # The type of truststore, set to Java KeyStore (JKS).
 
